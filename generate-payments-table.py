@@ -2,6 +2,7 @@
 """Payments Table Generator
 
 Usage: 
+  generate-payments-table.py <month> --token=<token>
   generate-payments-table.py <from> <to> --token=<token>
 
 Options:
@@ -15,14 +16,27 @@ from docopt import docopt
 import sys
 from fiobank import FioBank
 
+import calendar
+from timelib import strtodatetime
+import datetime
+
 def main(arguments):
     client = FioBank(token=arguments['--token'])
 
-    transactions = client.period(arguments['<from>'], arguments['<to>'])
+    if '<month>' in arguments:
+        month = strtodatetime(arguments['<month>'])
+        month_range = calendar.monthrange(month.year, month.month)
+        
+        month_start = datetime.date(month.year, month.month, month_range[0])
+        month_end = datetime.date(month.year, month.month, month_range[1])
+
+        transactions = client.period(month_start, month_end)
+    else:
+        transactions = client.period(arguments['<from>'], arguments['<to>'])
 
     for transaction in transactions:
         try:
-            transactions['recipient_message']
+            transaction['recipient_message']
         except KeyError:
             transaction['recipient_message'] = ''
         try:
