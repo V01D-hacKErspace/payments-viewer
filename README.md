@@ -1,7 +1,9 @@
 # Payments Table Generator
 
 ```
-Usage: generate-payments-table.py <from> <to> --token=<token>
+Usage: 
+ generate-payments-table.py <month> --token=<token>
+ generate-payments-table.py <from> <to> --token=<token>
 
 Options:
   -h --help         Show this screen.
