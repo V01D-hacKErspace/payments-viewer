@@ -20,6 +20,12 @@ import calendar
 from timelib import strtodatetime
 import datetime
 
+def table_header():
+    header = """||border="2" style="border-collapse:collapse;margin-left:0px;" cellpadding="5" width=100%
+||! Datum ||! Odosielatel ||! Sprava ||! Variabilny symbol ||! Suma ||"""
+
+    return header
+
 def main(arguments):
     client = FioBank(token=arguments['--token'])
 
@@ -33,6 +39,8 @@ def main(arguments):
         transactions = client.period(month_start, month_end)
     else:
         transactions = client.period(arguments['<from>'], arguments['<to>'])
+    
+    print table_header()
 
     for transaction in transactions:
         try:
@@ -43,7 +51,7 @@ def main(arguments):
             transaction['variable_symbol']
         except KeyError:
             transaction['variable_symbol'] = ''
-
+        
         print "||%s\t||%s\t||%s\t||%s\t||%s\t||" % (transaction['date'], transaction['user_identifiaction'], transaction['recipient_message'], transaction['variable_symbol'], transaction['amount'])
 
 if __name__ == '__main__':
