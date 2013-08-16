@@ -55,5 +55,5 @@ def main(arguments):
         print "||%s\t||%s\t||%s\t||%s\t||%s\t||" % (transaction['date'], transaction['user_identifiaction'], transaction['recipient_message'], transaction['variable_symbol'], transaction['amount'])
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='Payments Table Generator 0.1')
+    arguments = docopt(__doc__, version='Payments Table Generator 0.2')
     main(arguments)
